@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #phone {
+            margin-left: 300px;
+            margin-top: 20px;
+        }
+
+        #table {
+            width: 300px;
+            height: 380px;
+            position: absolute;
+            top: 35%;
+            right: 450px;
+            transform: translateY(-50%);
+            padding-left: 10px;
+            border: 1px solid lightgray;
+
+        }
+
+        #table2 {
+            width: 310px;
+            height: 70px;
+            position: absolute;
+            top: 112%;
+            right: 0px;
+            transform: translateY(-50%);
+            padding-left: -5px;
+            border: 1px solid lightgray;
+        }
+
+        #instalogo {
+            margin-top: 10px;
+            margin-left: 45px;
+        }
+
+        #forms {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 250px;
+
+        }
+
+        input {
+            margin-top: 10px;
+            height: 30px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid lightgrey;
+            padding-left: 10px;
+            font-size: 12px;
+
+        }
+
+        button {
+            margin-top: 10px;
+            height: 35px;
+            width: 265px;
+            background-color: dodgerblue;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid dodgerblue;
+        }
+
+        .ili {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            color: gray;
+            margin-top: 10px;
+
+        }
+
+        .ili::before,
+        .ili::after {
+            content: "";
+            flex: 0.47;
+            height: 0.5px;
+            background-color: gray;
+            margin: 0 15px;
+        }
+
+        #facelogo {
+            margin-top: 20px;
+            margin-left: 65px;
+        }
+
+        #enterfaacebook {
+            text-decoration: none;
+            color: dodgerblue;
+            font-size: 15px;
+        }
+
+        #password {
+            margin-top: 30px;
+
+        }
+        #password a{
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
+            margin-left: 90px;
+        }
+        #register {
+            font-size: 13px;
+            margin-left: 10px;
+            margin-top: 25px;
+            text-align: center;
+        }
+        #register a{
+            text-decoration: none;
+            color: dodgerblue;}
+
+
+        .app-section {
+            margin-top: 120px;
+        }
+
+        .app-section p {
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+        }
+
+        .app-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .app-links img {
+            width: 140px;
+            height: auto;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: gray;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: gray;
+        }
+
+        .copyright {
+            margin-top: 10px;
+            color: gray;
+            text-align: center;
+            font-size: 12px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<img id="phone" src="phone.jpg" alt="phone" width="420" >
+
+<div id="table">
+    <img id = "instalogo" src="instagramlogo.jpg" alt="instagrm logo" width="200" >
+
+
+<div id = "forms">
+    <form action="">
+        <input type="text" placeholder="Телефон, имя пользователя или эл.адрес">
+        <input type="text" placeholder="Пароль">
+    </form>
+    <button id="enter"> Войти </button>
+</div>
+
+    <div class="ili">или</div>
+    <img id="facelogo" src="facebooklogo.jpg" alt="facebook logo" width="25">
+    <a id="enterfaacebook" href="facebook.com">Войти через Facebook</a>
+    <p id="password" >
+
+    <a href="instagram.com">Забыли пароль?</a>
+
+    </p>
+
+    <div id="table2">
+
+        <p id="register">У вас еще нет аккаунта?  <a href="instagram.com">Зарегистрироваться</a> </p>
+
+    </div>
+
+    <div class="app-section">
+        <p>Установите приложение.</p>
+        <div class="app-links">
+            <a href="#"><img src="googleplaystore.png" alt="Google Play"></a>
+            <a href="#"><img src="microsoftstore.png" alt="Microsoft Store"></a>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="footer">
+    <a href="#">Meta</a>
+    <a href="#">Информация</a>
+    <a href="#">Блог</a>
+    <a href="#">Вакансии</a>
+    <a href="#">Помощь</a>
+    <a href="#">API</a>
+    <a href="#">Конфиденциальность</a>
+    <a href="#">Условия</a>
+    <a href="#">Места</a>
+    <a href="#">Instagram Lite</a>
+    <a href="#">Threads</a>
+    <a href="#">Загрузка контактов и лица, не являющиеся пользователями</a>
+    <a href="#">Meta Verified</a>
+</div>
+
+<div class="copyright">
+    © 2025 Instagram from Meta
+</div>
+
+
+</body>
+</html>
