@@ -12,8 +12,19 @@ export class ProductitemComponent {
   @Input() product!: Product;
   @Output() removeProduct = new EventEmitter<number>();
 
+
+  liked : boolean = false;
+
   like(): void {
+
+    if (!this.liked) {
     this.product.likes++;
+    this.liked = true;}
+    else
+    if (this.liked) {
+      this.product.likes--;
+      this.liked = false;}
+
   }
 
   remove(): void {
