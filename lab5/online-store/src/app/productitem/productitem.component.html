@@ -1,0 +1,11 @@
+<div class="productitem">
+  <img [src]="product.image" [alt]="product.name" />
+  <h3>{{ product.name }}</h3>
+  <p>Rating: ★ {{ product.rating }}</p>
+  <p>Likes: ❤️ {{ product.likes }}</p>
+  <div class="buttons">
+    <button (click)="like()">Like</button>
+    <button (click)="remove()">Remove</button>
+  </div>
+  <a [href]="product.link" target="_blank">View on Kaspi.kz</a>
+</div>
