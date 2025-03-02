@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {AlbumService} from '../../services/album.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-album-photos',
@@ -21,72 +22,51 @@ export class AlbumPhotosComponent {
     {
       albumId: 1,
       id: 1,
-      title: 'Ti1 Aegis',
-      url: 'https://liquipedia.net/commons/images/thumb/b/ba/Dota2_Aegis_allmode.png/476px-Dota2_Aegis_allmode.png',
+      title: 'photo 1',
+      url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExMVFhUXFxcYFxgXGBcVFxkYFRcXFxUdFxcYHSggGBolGxgYITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGxAQGi0mHyUrLS0tMC0tLS0tLS0tLS0tLS0vLS0tLS0tLS0tLS0tLS0tLi0tLS0tLS0tLS0tLS0rLf/AABEIAQoAvQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAADBQIEBgEHAAj/xABCEAACAQIEAwUFBQYDCAMAAAABAgMAEQQSITEFQVETImFxgQYykaGxI0LB0fAUUmJyguEzU7IVJENzkqLS8QeDs//EABoBAAIDAQEAAAAAAAAAAAAAAAEDAAIEBQb/xAAwEQACAgEDAgMGBgMBAAAAAAAAAQIRAxIhMQRBYXHwMlGRseHxEyKBocHRJDNCI//aAAwDAQACEQMRAD8AqO1t6DJiUH3lB86JOeVKuLRWYMNm+o/takSdI1dNijlnok6HETA7UZap8HctGPDT8vlTSOKihWSGiTi+woxGl7/o1Y4YLk8hp8atYzC3sPM/AAfU0mx+NKXRfe0ueYt08fGg3RfFheWSjHk0Mcig2vc8wNSOl7betEaYLq11HU7ep2HrROGYIRRqttbXbxY6m9WlivvtzqC5aU6W6BLr+t6sRxmsumNOExDRm/YkggfuhtQV8treHWtpGo3GoNiDyPSinZfNheOn2fDIJH1qMkyBspPe3yjvNbqQNh4nSs97Z+1a4RezTvTML207in7zdCeQ9a8/wntpiosxQRgsbsWVnZv5mLVamxaUatv9D2XtVUXcFR1I0HmRcAeJtUDi4bqokQljZQGBJ56AeArzzhf/AMmzWJkgjbLbNlLJ3SbAi+bXlarPAuIYafHRPh7qGJLRsLMjZWvoNCvMEE86DtDMUITtN06bXjR6DJGo3/E/SqacUw1wBPGTcAd4HU05Ra8g4f8A40f/ADU/1ihKVDel6aOZSt8fU9SMYO34j60N4rU3dNaHJFpV6MdiB5Fva/yPP08DQ5sXEhGeRVvtmOX61bka0rCx91NvOSsj7bNd4zY+62/nVJbKzT0+KOXIoP1saaDFRtqrqwvuveF/MULEY+BT3pUF+pt9aX+xZ/3dv+Y3+lKdYjDI4KsAQeR1FRW0VyQhjyOLukKpMcjnLG6MegIPnUkQnff1pVg+G9hjMupUoxXrbTTzB/Cn+W1RMmfHGDWh2mrEPZ9eVC4jhc0TW3HeHpv8r0z7PTavlj2FF7i8c3CSkuxnfZ6a0mXkw+Y1+l61ccfOsZiUMMxt91gV8tx8tK3EcilQ42y5vS16pD3G7r4JyjkjxJFWbEBQ7kaAfJQSfncelY7B3eZL65pFv6sL1sOMIVwz33y6+Z1P1NZPggviIh/Gv1oT5HdCksc5L1SPQNSeg/XKjQjTeix4ex5WqYhAJphyTD+28VpUPMpY/wBLH86u8H44IsBJI+vYXAHW9uzHqTl9KF7fjvQ/yv8AVawvHceVh7EH/EdGPlEG/Fl+FUj7Z1ZrV0Sb7f3RQxGJZ3aSQ5nclmPUnp0toB0Ao/A+DvjJhEmg3Zv3V5+p2HrSWTFV6V7EYJoMJ26SMHezsMisoH3QSddvqadknpRzMcLYyX2Gw0aMoU6izHmdb6nzrEcc4K+BkWfDuRkYEcyp/EG9iPGvSsDx3tkJYC4OuXb51jfanHGfOiEBLEE5cxPrWWE5auTVkhHRwej+ynGVxeGScCxYWYfuuujD4/IivNeH/wCNH/zU/wBYpP7G+10+DVok7MozB7OGOpUA2IYW2HWrmDnfOhGXNmUi+18wIv4Xp2RcF+gyKCmn4fye5swqDPWVikxbe9iYVPREWT4Wa9SH7Yv/ABEf+eBl+atcfA0w5o5cjtW29yP/AFS1ivb7/Ei/lb6inmD4taRhOgjYhBmDZ4z3nt3rApe+zAbeNJP/AJBH2kXih+tLn7Ju6B/5C8v4D+xh+yYW/wCIdendW9PJZ7Pl3JUttyBUfj8qQ+yKuYHyBbhzqxIHur0FD4c0xxMnbe9k0ttlzaZfDegnsi2fFqy5JXwPMQAWV+a5gPJhrb1AooS+xoVvlREJFXMTdi/LXEFGtpXwFAgh9qsJoko/lP1X8fjVz2ZxOeER31VgP6ffF/DQrTDH4XtInTqNPAjVfmBSr2Lw9u0kPUIPTVvw+FVr8x0I5FPpWnzF7eviaLEYXOjoT7ykfEEVgOGkpiI76FZVv4EOAa9FU1mPavgxuZ4wb/fA3BH3h+Px61JruDoMyi3jlw/mbha61UOF44SxJID7wB8jzHxvV29XMDTTpmG9v5LzRr0Qn/qY/wDjXmHtNJ9qB0QfO5/KvSsbhji8W5X/AAlIUvysu4B5km/xvXmftdIDjJ8uwfKB0EYCW+VVgvzWdDqMihgji78sq8HwXbzxxXsGaxPQbt8r17ZiPYyJwpjkyaDTvW0Ftgw08K8b9lz/ALwp6A/S1ew8Hx5tlLW8apmk1ITggpRdjLA8FWGCSMEs2Q3Y7npXn/FOGOIroWtZrgMFubWF7AHQ676860vHeJmIlYsYtrWy2U20ucxGpJPWspjuLlMMczBiQdRzpcFK7GT01TMTBvbwrQcLx+Rk7S9gym++gIO3Os5GdfSm/D5gwytvyP65VrmtjLilKM/yuj2PA8YjKgqVIO2hW/le4J8iae4fE5hdfncEfnXjOCM2H1Q5kO4F8p8x1p/gPakrYhjcbq21vMaioJ8zfOFeVg4HuJy/ikvr0+VYj23w5ikjW5KZTlB+6L6geHhy5WGgvYX2tjzMxVgTblfQDrfqT8aS+0fEzOyNY6AgaWGp5dapP2TX0f8AvXrsaT2FscM/P7Rtv5VppJhO8GtqFI18Sp/A/GsbwDhTSoSvd7xGYGx2HMa/Onw4Cqi8ksptveaQKPMZrUY8FOob/Gl5lnF4pI1JdgvmQOdudff7TT7oZh1CsV9DsfSsxi5YDNGkCLYSJmktdmOYaBjqR9a3CqOlBOwZMMscYuXcXZtL25V1JOtfRxO7BBa5IA8zYegpiMBH2g1bsmR2Bt3u4j3065lvboRREi9X/Vq7hogoOXS7Fj5sbk1eTh2jBjbKym66gx9nK7FetwgtQuzDIxWFwF2YXcaanPpbbmLW6VA32IF6NHJt41YxeBQSOmXKAJSDnzE5FYi45agUqEfjUAGWFUJZLpc97LbKT1KnS/iLE1N++MrMxU7he7ceJGvwIquDbnbpU0mI50C+p8hgiotlACqNALADyAr89cSlzSyP+87n4sTXsntj7SphoWFwZGBCLzJ6kdBXiW5q8SrY19n4mzl1+7W74bjA4tpfmD+NLPZThmVNRqascZwOQZluG6is82pSo144uMbLWOw7Io+ywrLqQMtmF+pA1rAcVxNzkFgASSBtcm9WMdxOexBbTbxpQDc02EWuRWXJq2Rbi3qSXGo5a+nP9eNcgFTgYJIC1yt9bfunRrfX0prEMfcL4iygE96Mm366Gn64GNwJEYrfS4F7fzDmKzuIwb4Vu0S0kDb8wQeTDkfGmvBnsS+HJZR78f34/T76+XzqgdT7mnwGJaOyyqBtaRfcPnpp/ermL4akoDMxYjQagbnwFUsBIrjuuCDt0vz0Ox6ijMQSBltrqRoNPUa61V7loTlB3FjPhuFWMFImcC9zaxsbAHUqbHQaVSx+AEjWYyuBvqSt+gANr+NMsNEgTUtruLk6nlYnlVppVAsB5edSlRZZpqWq9xFBwWFXHde6spGp63FweXWtCZRXOx0B518UPh86iVAyZZZPaZ9w6+ZrEKcjd437otqRbW9rj1q5GHyktIrJZrOc5Izq0TAC1wdQdegpfgcQELHqjAXFxcjS4PKmCY5TezZLqoAyAqpDEsAByJ1vvrrRFkVZkjUdqtsxdO6xJy51I2tlNzoeviam2HALInZq1nWQjtCVCqS4UNyIBFxc8tjqGWZTGE7TbNcZPeuxYWPLlRo8aqn/ABGY94KxXvIpjdQG/e1K6agZdN6JCvicYokLBFYtmzEdoAc4YMLMdN76UuLDMcoyjkLk/XWi4wEtcNm5k2y/KgxIW2FvHmfypcpJcjIQcnSIEa3pdjseS4hSyyNszi63tcaKbt8q00EcYW1KcVwQSMmIBtkY2F7BghLEt3SdCORGg8qWpyb2NUMWKPt39TEY32GaWTNLOzOeZ0vbwI0HgNKsYD2FVG2v4716ZBGsqjMoPnXJeDLyZvK/51V5JNEUIJ8GVHCsiiw50q4rhGbQVupMIRzv0vVDG4EmMgbmlJ0x3KPD+PxWN+V6UIK3fttw8RgDnY8tgBv8bCsPGlbsbtGHLBxe5aw+1GmjJjzj7jC/k+3zH/dQ8ONxTDhIBkMZ2dSp/CmvgTyzT+xuKWWExNYlRa290Pu3HxHXSpycICSAXyNe8TqbadMw1B+Xhe18lgp3wk/M5eX7yHe3jz8xXo8eKjmjGtwRdW5fHl5Upug6WI58FIrMzMwa+rILeRYDU776+YNM+GYZm7/bia3Xl5akfEVYwvd0fbYHp5n9Wvz3q9hoY3sWjUn96wv8bXFCyUXMOdBe/mdv7+lWolG9x5nQafSq6YeEADX4mrsEUZsQFPmNdPOoQKpYjTa3jr5eFAYn9Gr7J0qnOpvUAQwMvftkDXvpZSdFNt/j6VaclgPstA2awCL3ehsb31XS2l763FJeDzP2oysq2v3mtYAi3Pzt606iz2zGRRtmKqtwwCE59dLEWv4eNFBJCdNbQk93MQQAALs1wfvDUDbZfhOFxp9idCAbqrH3ddDbUgofA33vagwMxOYSgllQN3QWIKgkZd2tdBfnc9KI8rhSe1DG+qqis7dwEjo3vEWBIsD5VCUEgIsFMVyL5jaNr98NY63JK2Hhe2t6FjMQoTSOxFjewXTU7ctHT5VWxmLaIM/bKToNFUm5FxcE6CyrrrWV4n7Ty2IJUjXdVO+p5fqwrPJ6mbIR0oZYjigHOqmD9oWknWJV+zNwbH3mAJzNpyI22sOutYLHcVOpvT/2XmCzR5tLi1/4jYD460NOlGvDGORStXS/c9TwmgqwZqBCO7QMS9hcmwHOk2Jq2X8wNUOKYpIo2kcgKoufyHjWc4h7Xxx+6c5+A+PP0rEcc49JO13J02UaBfjov1qyTkaodK1vPZfv8Cl7RY8zuznTw8OW+wHzOtqzcad42p5+ykjM+i9Bp8OZJpdPBl15/rStmJpbCOuxTktdfYhl6UXBG0yH+L8DUA1fRNldSeRpz4OSuTXce4UMRGHSwkUXHnzFIeCcTaFuyfuoT3r/AHDz/pP60qGG403aEA2HKmU+GScXOj8iPx61n4VPg01q3jyaWNyo6gjz+B6eFX8F7vd1UgWtrbyrFYXFzwDI2q8jbMvpzH0q9hOPRRg94gk3O7XPiNPwoKyrin4GuLEnQ3I5bf8AqruCjZj3d/HlWd4Tx6OdrWZSdiUYKf6iLX8PrT7DEoe6fGrC2MYy67/2rjYkX2+V6lFjmOhsaDKb62tRAKETWjRpflVrsQK6i2FAhWEVqCRpc+lS4jitcvIat+ApfPjaTkl2RrwY6WpkcXJes3xmUAGmONxwUXrE8Vxxkbwo442WyzSRXWfNKt9r/wDr508bFWbKRpp9KR4bCk6/CmrHW5tfnTZob0OZpNLm7NGvtbiwgRZTYaDRL2HU2J9aWYzi87+/M5vra5f5E6fC1V4rtzA8h+dHWBB4/rwpGyOsoN7x2/b5FJQxN9R4+83x90fGreFiVdgt+rNmPoF0FEuo+6B/NYfXWvv2kdR/SCfnYCo22XhjjB23v69bB5Tpqflak+MUVbxGI0pdI9WxpiuryRaplImxtUJpKHi5O95WqGataex5qSSbo7GtNMBxJkPe1HWqODivemeHwBPSqSSBGTT2NFg8cjjW1M4WToL+QrCyYd4zdasQ8Vce8D50h4/caY5k+TfCVduR5dKtRS2Gp9elZXheOMhCjXy1t508mYpVLcWNcVNDiCb4aeNWhNqazEWLsbX03FM4sYNb2p6dmOUadFx8VyoM2MsDXWiFLeKS5bX2v87Go+CRVugOJufxpLjMWFvrtWiwBV/WkXtV7O3BaMkH5HwNIjV0zdK62MjxPipc2G1CwWGLV3B4E5rEWIOorW8M4cBbStWyWxz5ScnuVsHgAANKqcUgKkHqPpWsWJQu36tSvi8IyX6G/ly/Gqt7D+m2yrx2M+jdL1I36N86IcON6IsI6fIUlyR3ljlwyqIm/dtUsjdB8b/VqtiIDl8z9K4w8PkB9bn5UNRb8HxF8znn8sv4VSlmtTDEmqGIFxToHO6pNPkVM1yTUlNQO9dWnHJG3CNWI661qcFhTpWNw89irDcfr6Vr+EY9Wtc/CqSRUJiMIDelzcNLMABvWgzKb69bac76Uz4bgAO+9LlPSh2PHrfgd4Fw9IItrcyeZNKeO8QF7DnVrjXE7XAOgrEYzGF20+NKxwcnbNOXIoqkM48YWca6L9a0GHkuKy2CTnTzDvpT6oxOVuzUmXU70r4smcEH/wBHlTmSPpVWaMFTUCZPC45onsdr78q1OHxiyr40o4jgQwIFKsLK0J1269KXPHe6H4s1bMY8W4QQc6DXmOoqPD8Rpsad8O4gsgAofEOD/fj35jr/AHoRnWzL5cWr80QUUwJsVAFqBjY8wItvp8ahhpdxtR3FNMqtMzBUgkHcGx9K+VqscUW0h8gf18KqIdaQ0enw5NcIy96C5zyt8L1Vnf8AiPyWjsngvrVPEMdrD51IoOWTSAO3iT8/xoDfrWiMfL5/nUCPKno5OR2xViUseXpQ700nw+Yf2FLXjIOtMTMGSDiyxw+EsSB4VpOGYFks1wKpcDjAAa29bfg2AA+0k9BVJzopjxubLfBuFWXtJPQUHjfF1UEA1X4v7Q3ukfqeVZXFNfUm56mkqDk7ZplkjjWmILiGOaQ22FAggqaR+FX8PFT0qMjk5O2fR4cjY0dWI0vR41GnWhzJrUAeg4SHtiVzEaXAVQzNqBZVJFzre19gaFiOHFRHlLs0pGXuZFNyRYOWvfzUWv4UfhkRJkKqrZULFWAIIVk28dQfQjnajvHOQkx7MOysRISqMFbMBdiQATmYjnsaFFhTxDhBPbGNgQhQoNSZEdXcFSdzlS5Hn0tWb4vw8pI8d82U2va1/StvPDIyqrytn0dbI0jDI0mTPIpLDV2tYNa42qjxLgrSZpWcl3DSG0fd0hSY52Bsh79hpa45UQHn8YdDmQ2+laLhPtNssgynryo/GvZ4w/eZrSPH3kMZJTcrqcyHr5aa0jkwRPI1WUExkMsomrxmASUZ0IDdRz86TuShysLGqOBxMsJupuP3TtT7D4uPErbJlb9aUreHkaKjl45MnxSfNIbDYAX+f41Wj3qzioCsjRvow1HiDtVf3T6UGztYFWOIRl02vS97dWHne1WZZRv8x+P96qM58/10/KpFEzSRxk6G/wADQyD0B87j8a6xB6fT61ErbmRTUYp0+Ecd/C3qfxoOWrAY9R6gVFm8QPQUUxE4KXP8D72YwV/tGHdGw5Gi8Y4w7HINFGmlN/Zkh8D/ABIzA/HQ/CsfKxzG/WqxWqTszZP/ADgkgpai9jfzqEOlHjNNMh9FDarcS0GM9fSu3oBL0Si9TnjHPT0qnE1fSg1CG/4YrEsEYKbLqb30kjK2IGhzBavYsyhAZOzYOx7h1F7/AMJFgNhY6DTwpHwrEx52MjOBkv3bg3DA2062+IFMmxcNsvaPp7qszKhYNLlJN7rmsh2Fs2+9gixaEOIXXKuZBJlYDVRGQTky6Fcz924Pha1V8e8qJlcqVIZOobKkS38SMiWO4ZTQ4cVGXYNK4tkK2LsA+XKxHMhWIYHfLGetQfspL6795Lu5OZkJftL6LZgoB0v47gkK+NxRm1ksTmZgbajOcxF/3bkkDlc9aoyAbWpti0w6hyCLFQV7zZx9mSLL4yWBBGx5b0gkxJO1AhWxUWtS4TZZLdRf4f2+lQnYmqjyFLMN11/OqyVqi+OWmaZ326ly4hDb3k1I5bUidvX5Ux4ziTLMpYWtHoN+Yv8AhSmca6G3ralI7uFtY7BTDmPX+4oIZT1B8Py0ojNbe9xzGh9R+vKuAX+6rjw0b5flTFshE95bevhuCI5XB+R+BrgiHW3xX+1EManQMR/C4/GvuzI3DAdR31+Bo2K0eHr17yPZEbm38w0+IvUuy56EeB0+dFhX90g/yllPqNfpRFj8vlf/ALSD8RQchscKfb15jL2TnyvKl8odCfVbfmKWzjvt51Y4KyidA5yqxKk9MwsD8bVLGxBZXW9yrsp8bHQ/CrR5sw9XGtkRhXS9HKG+1DiIFMIZBbS4Nsu3z0q5hKkYNG7OiGI766+FqIq0AkI4vPaimE+NdU+e1FL1CGnwGKWIsQL50KHXLuQeh6W5HXcVObiAMkjmMMJALqxuAVOYbKNLgfMa3NKBIbWvrUHJHPegWHOJ4wCzN2ZGYm+Rwh1ZX0ZUuLka3ve+lq6eP5u0HZle0BBs40711t3OQJB67i1ImJ61AOBzPpUsg+4nxkyK4yDv5tyCQWZGNiANO5a3lzGqZYvjXyNrzorya6eVQhWfDXNVZ8MRudDV5iaDJyvQIJ8Vg3EcUh2JYKbi9gbG45a0omIzG97HfnTeea65fugsV/rNz89fWlUkDnXRR4m1KtWehhjlDCk1vyR7LTuurDo34HcUEol9QUb5fGu/sh/zE+Nd/ZD/AJqfGrbe8S1J/wDHy/u18SfZSW+648bH5j8aiCo3Dxn4rXVwLDZ1v4Gjqkw+8jedBte8ZGMu8X8/r+4MQ5te6/ipyt8Kncgbt5OL/PeunD33iHmrAVCfQWu3k2v50ORlad2vmv4XzZUkNHwjlixJufeJOp31PzFU5mprDwdv21cKrq2dowsmylJkV1ci+i5HDHoL05I5PUSuyxCug8vWmuETqbDWqmCwD9q8TdwxCVpDuF7BWLac7soUeLCreNUxMYyb2WNrjT341kA9A1vSrHOLSxA63Nhpr+ulCtrpTOXhixiXtZSoSRYwVjz5iyZr2zCwsKDFgQ6TSQv2ixdnmuuRiH7VmKrc3yiMk+FzsDULFInW9uVfBwegomFTOsjA27OPP5gyxx2HrID6VTZ/CgyDcAEEkVx7da4UNrUPJp1oFgEgNtNqgikHerai3hrUJABUAdiBP6tVuNCeW1cw0w50wSVagSk8bHYUr4mSsbEjw+Jt+dPJMSLaUh41IXKR+N/W5A+poSdIf00NeVJ+fw3J+zvDVfvSC68gfmf141X4/wALMLXjJynYb26jXf61peHRBVAGwFqDxyDNGRz3HmKy2dWPUP8AEt8GCMl9ciMPDQ+uhoRki+9GR6X+ho86AnXutyYaX8D40BpnQ99Q3iND/emofPbnjytf38/M4Bhzzt/1Cprg4js//cKkjQydAeh0NRm4Wu4qX4sqsdq1GLXht/ZJsABtrVR6+MOXYn0JqcMTyOkaklnZUUE6ZnIVdTtqasvMVkklH2aKcprW8PdThFxZP2kUUmBFzrnkN4mAHTDSTrfl2IpLxXB4ZFlEeIdpIiQRJGsaS5XCN2LBybi+azAXUE6EWpvF7Pw9vJhI8RMZFleMCSJUikliLIAGWVipJuAxX72tr3pyOTllsNeIOP2Y4m4L4tY4211Bw5/3k/1PHh3/APsNWuL4lO1KnDRMRFBdmacE/wC7xb5ZQPDQDalPD+GIscbYiRwHGeOONQ7BXsA7ZmVUDBRbckAGwFrtlwAkKukjPGzJGxcWkQnRA63IK5R3SCR3babVDKM+PuijEF40cNik0ZpFA+xY6FHUn1JpHhJjHBLJGchXE4YqVPukJjCLXvcC9tb6b3p2G+0eKDF4hZS9tQYxI66AFklJzHYXG5ANqX41UlQSHEYmRpnZEEiLYvEEyZiZjZft7A62u2nWBPkRHgxWIiCqDAqyRjTs5GxOHIyDfs3AYj92xXkCc4ZPGmWNwsKdqiTv2iXVgyBEkyuoYIQ5JsQGAYC4W+hAFKCtQhokkFrGqjSmuCbWgvN4UA2HjxDEfrlXJCed6Ak1We1HhUCHw4HOiyX6n0ql2gFta+/aDyoEDlj8ap4IZ8QT+6Pnt/5V18QdSeQ+lc9nBozHm1v+nQ/O9KyvY2dKqUpfp8fsamA2oGOkqSvYUtx0+9JHmZ4igzleTajzpb2hHdbUfMVY4xPrfpQJDnF/vAa+I5Gm1RpwZdUa7r5ApI1O+o6ivkLp7rXHjqKhe2or4N00Pyq9Ecld8Pw2+/6hGnB95cp6jUfCoQoWdVUgFmUAk5QCSACW+6Adb8qgz9RQZDVooRlyt7WaLGLJOuMGLhVJYI2Zp+z7KTtcyhUmy2SQvcgEjMT3rkXu841xFIsbiWiw6LKJ57Sl5XIYyOC6oWyB9bi4IB2GgrBz4+WRVSSWR0T3Ed2ZV0t3VY2XTTSm2FYk3JJJ1JJuSTuSTufGrnNyo1PEY2bLiFF4njiBI1EbxxJGyPb3SCtxfdSpFM+CIY0u4ymZoVjUixYLMjs9jrlGTLfmX02NszgcTJH3o3dDa10ZkNvNTemXFcFJH2Uhct20SShySWzFVLKx3zLcejKedQUh3LNGGnkgiInikdu+5eyZiGkjUAd5DY2NwAc2uU0ikjzYbDi4BM+IAJOUC64QankPGrPBuEvKjTMzKBKkd+bGVgr25kBW1/nXrQeJYfDrnRRiLqWC5njyXvYmwW+oHyFQgbEI8v7QuJjAkhRmabJ2biQEBVlK2WTOe7cjMSQbnW+bNaTHmFsOhL4thmkSNHlVkRokiIOXLoD2oFhbY9azzRa71CFwSfjUbiq3amvjLcUAhAN6Ir6WqpG9FU9KgAoNFjW4qsXPOupIwqBCcTYLGzeFXOBJaFAd7AnzOppFxucsqR/vuo9OfyrR4MWApOU24PZr162LjyaUl4jPV7FSaUhxsm9Uihs2I+IyXJr7h8pZNPeTbxHT4VX4g+9VuEz5X8/qP0ae1cRWDJpy78PYayWPeGx+R5igsKtSgKf4H38DyNV3Wxsd/rVYs3ZY+/19+3wBMTQmNNuCYVJJSJQxRYp5CEYIx7GCSUAMVYC5QC9jvUUw8WIlijw8bxFmszSTLMoXdmNokyqqhmJ10HKmIxTe4pUU4wd7VPEcGQ4uKGKQ9jiGi7GRgL9nOwUFgDbMjZlYad6NqYwnDMezSOeF1kVAHcSFhnyuJFyL2UgBvzGhFtjRM2XhAo3Nq1yt2pTCm15MPhmhJIAEwhXu3OwkXufzCPpWfiwaftn7Pc5P2jsb3GbL2vZ72tmtztvyppDwdbRkMVB7dpGPeCJAwFwBYkm4AHNiBpUEId4PEKS8cZvFE2GRDyY9uDI/9TXPllHKqHtBDiS0hbDMiK7nOMP2Ytc2JcKLjzNL+2wpOXs5lX/M7RGfzMeQKf5Qw/m51ZTgxKzJ2gMivAIbe5MJklkUKTszIilb8zl3IqFiliDbCQ+M+J//ADwlK2NWcJEHWcm4MUQcAad4zwxENflaRtOoFUHegQAJPGpK9UReiq1EBd7SjRyUvR6MlQJeL19A5oCm9EDWoEF079pi415ILn4f3FaqI2FYrgMufEO56fj/AGrXB9KRk5N2LghjJKRY+SmeLkrPcQmowRMjFGPeqiNYg9KlO9zWlwHs3BLFE4nKM4XMHFwSxxK2TKDrfD371hZtxz0JGNvcjhiHTL6j1oIFxkPvLt4inkXAEjmxMWeXLhtQcliygMzHvABRZTa+huLE6BmeM9k4i5tM4Vc57QhFjbJn7iuWsJBkub6ABugLJqmddZozxp90t/FfQQ+y2JKTs1wGXD4sgkAi/wCyzZdG0OttDvVjCcTyRyYmdUlea+HRP8L7MANO32IW2jRoDzDyDlXcbwKLtURZWYsZrgIA9oSy2VSbF3kjcKt+a9bUDifAljWLI7GWaQIsTgKyArGQJOjBpANx1sNQLoy5KvzLCvBi4VhCphjA4ZSWkdexndUmzFyTZHMb2HJpTbemuFXEhT+365TGIHkZXlMnbR6RS3LSxdn2hJuUGVbWNqRrwOISTLJiFESRrIkqhXVwzKgsFY3sSwIBvdSKbv7HwRly07KEaUG6WJWKN3BtbMoOQ2bKRsBe4vZGfJVbDVPaCb/aFu0GT9rt7kdsvb297LtbnU1xcfZJG7hVlGKjLb5D28ckbMBc5c8ag+BJ1tSjG8BSIFrzMALkrGLKAivmYsR3WzFVIuLo2rWy0TB8BV5HVZlVUxHYkvYHLfKXGtic1gFG+YeNEzn3+w8RuUCp/ml0ENuvag5SPIk9ATpReJ45HhmCMSqPgY0J7pYQwYpC9txci/UZgKjhfZ1WXM0qg5BfKUYrLld5I2Aa5ZQq3597bTX7HezCgnJMD74XMVXNJaMxRq2azF8x1G2Ui1waBAq4yOWDFSswXEGFUkX/ADicTh2Eq/x2Q5xzNm5tbMFh1p7ifZtUjlkzydxXsCo7+RsucBSSIj7wY6W+90zRFQgFXruahx1JqgAiPVlZ6qJRUqBLaHxoWPxWWJj4W+NQiqnxs/Z+tQtHkj7M6Zj1NantNKzHAvcHmafcqTPk14uAGNlrM8Rnp7j9jWXxnvVeCKZWArtcqQpohFzh7ganr9abwkA2sLHbypNhNj500Hur50qas6PRZGrXu3IzxZTcUF0B1UeY/Krk3u1T51I7ovnioSrsweldiFuVdxQ73wriVdGTIqtF2JxRNDVVKMKJhCrYVIyjpQBUaAQwfwFSM9Vb1w0SH//Z',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/b/ba/Dota2_Aegis_allmode.png/476px-Dota2_Aegis_allmode.png',
     },
     {
       albumId: 1,
       id: 2,
-      title: 'Winning team - Natus Vincere',
-      url: 'https://liquipedia.net/commons/images/6/6a/Natus_Vincere_win_The_International_2011.jpg',
+      title: 'photo 2',
+      url: 'https://static01.nyt.com/images/2022/08/25/fashion/22LINDA-UNBUTTONED-1/merlin_211794783_4cd91f20-deaa-41d8-a037-fa513d822b1f-superJumbo.jpg',
       thumbnailUrl: 'https://liquipedia.net/commons/images/6/6a/Natus_Vincere_win_The_International_2011.jpg',
     },
     {
       albumId: 2,
       id: 3,
-      title: 'Ti2 Aegis',
-      url: 'https://liquipedia.net/commons/images/thumb/b/ba/Dota2_Aegis_allmode.png/476px-Dota2_Aegis_allmode.png',
+      title: 'photo 3',
+      url: 'https://static01.nyt.com/images/2022/08/25/fashion/22LINDA-UNBUTTONED-1/merlin_211794783_4cd91f20-deaa-41d8-a037-fa513d822b1f-superJumbo.jpg',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/b/ba/Dota2_Aegis_allmode.png/476px-Dota2_Aegis_allmode.png',
     },
     {
       albumId: 2,
       id: 4,
-      title: 'Winning team - Invictus Gaming',
-      url: 'https://liquipedia.net/commons/images/thumb/9/9e/Invictus_Gaming_win_The_International_2012.jpg/921px-Invictus_Gaming_win_The_International_2012.jpg',
+      title: 'photo 4',
+      url: 'https://static01.nyt.com/images/2022/08/25/fashion/22LINDA-UNBUTTONED-1/merlin_211794783_4cd91f20-deaa-41d8-a037-fa513d822b1f-superJumbo.jpg',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/9/9e/Invictus_Gaming_win_The_International_2012.jpg/921px-Invictus_Gaming_win_The_International_2012.jpg',
     },
     {
       albumId: 3,
       id: 5,
-      title: 'Ti3 Aegis',
+      title: 'photo 5',
       url: 'https://liquipedia.net/commons/images/thumb/5/53/The_International_2013_aegis_allmode.png/463px-The_International_2013_aegis_allmode.png',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/5/53/The_International_2013_aegis_allmode.png/463px-The_International_2013_aegis_allmode.png',
     },
     {
       albumId: 3,
       id: 6,
-      title: 'Winning team - Alliance',
+      title: 'photo 6',
       url: 'https://liquipedia.net/commons/images/thumb/0/04/Alliance_win_The_International_2013.jpg/945px-Alliance_win_The_International_2013.jpg',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/0/04/Alliance_win_The_International_2013.jpg/945px-Alliance_win_The_International_2013.jpg',
     },
     {
       albumId: 4,
       id: 7,
-      title: 'Ti4 Aegis',
+      title: 'photo 7',
       url: 'https://liquipedia.net/commons/images/thumb/5/51/The_International_2014_aegis_allmode.png/461px-The_International_2014_aegis_allmode.png',
       thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/5/51/The_International_2014_aegis_allmode.png/461px-The_International_2014_aegis_allmode.png',
-    },
-    {
-      albumId: 4,
-      id: 8,
-      title: 'Winning team - Newbee',
-      url: 'https://liquipedia.net/commons/images/b/b3/Newbee_win_The_International_2014.jpg',
-      thumbnailUrl: 'https://liquipedia.net/commons/images/b/b3/Newbee_win_The_International_2014.jpg',
-    },
-    {
-      albumId: 5,
-      id: 9,
-      title: 'Ti5 Aegis',
-      url: 'https://liquipedia.net/commons/images/thumb/a/a4/The_International_2015_aegis_allmode.png/453px-The_International_2015_aegis_allmode.png',
-      thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/a/a4/The_International_2015_aegis_allmode.png/453px-The_International_2015_aegis_allmode.png',
-    },
-    {
-      albumId: 5,
-      id: 10,
-      title: 'Winning team - Evil Geniuses',
-      url: 'https://liquipedia.net/commons/images/thumb/a/a3/Evil_Geniuses_win_The_International_2015.jpg/844px-Evil_Geniuses_win_The_International_2015.jpg',
-      thumbnailUrl: 'https://liquipedia.net/commons/images/thumb/a/a3/Evil_Geniuses_win_The_International_2015.jpg/844px-Evil_Geniuses_win_The_International_2015.jpg',
     }
   ];
 
@@ -98,14 +78,29 @@ export class AlbumPhotosComponent {
     thumbnailUrl: string;
   } [] | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  albumId: number = 0;
+  constructor(private route: ActivatedRoute,  private http: HttpClient,
+  private router: Router) {
 
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.filteredPhotos =  this.photos.filter(photo => photo.albumId === id);
+    this.albumId = id;
   }
 
+  ngOnInit(): void  {
+    /*
+    const albumId = Number(this.route.snapshot.paramMap.get('id')); // Получаем параметр из маршрута
+    this.http.get<{ albumId: number; id: number; title: string; url: string; thumbnailUrl: string }[]>(
+      `https://jsonplaceholder.typicode.com/albums/${albumId}/photos`
+    ).subscribe((data) => {
+      this.photos = data; // Загрузка фотографий с API
+      // Фильтруем по ID альбома
+  });*/}
 
-  returnToAlbum(): void {
+
+
+
+  returnToAlbums(): void {
     const albumId = +this.route.snapshot.paramMap.get('id')!;
     this.router.navigate(['/albums', albumId]);
   }

@@ -23,10 +23,6 @@ export class AlbumDetailComponent{
   ngOnInit(): void {
   }
 
-  saveAlbum(): void {
-    // Здесь обновляем альбом, но в статичных данных это будет только объект в памяти
-    alert('Album was saved successfully!');
-  }
 
   returnToList(): void {
     this.router.navigate(['/albums']);
