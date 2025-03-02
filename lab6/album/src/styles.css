@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: black; /* Золотой акцент */
+    text-transform: uppercase; /* Заголовки более эпичны */
+    text-align: center;
+}
+
+p {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: black; /* Легкий серый */
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: darkgrey;
+}
+
+button {
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #140b42, #1e003a);
+    color: #fff;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 48px;
+    color: #ffcc00;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 30px;
+}

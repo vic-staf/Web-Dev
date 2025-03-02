@@ -1,0 +1,14 @@
+
+.container h2 {
+  color: #ffcc00;
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.container p {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}

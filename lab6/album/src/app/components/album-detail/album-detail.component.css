@@ -1,0 +1,68 @@
+/* album-detail.component.css */
+
+/* Общий стиль для страницы */
+.album-detail-container {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 600px;
+  background: #ffffff; /* Белый фон */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif; /* Используем тот же шрифт */
+}
+
+/* Заголовок */
+.album-detail-header {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Информация об альбоме */
+.album-info {
+  margin: 15px 0;
+}
+
+.album-info label {
+  font-weight: 500;
+  color: #555;
+}
+
+.album-info span {
+  display: block;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Кнопки: сохранить и вернуться */
+.album-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.album-actions button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #28a745; /* Зеленый цвет */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.album-actions button:hover {
+  background-color: #218838;
+}
+
+.album-actions .return-btn {
+  background-color: #dc3545; /* Красный цвет */
+}
+
+.album-actions .return-btn:hover {
+  background-color: #c82333;
+}

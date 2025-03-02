@@ -1,0 +1,11 @@
+<div class="album-detail-container">
+  <h1 class="album-detail-header">Album Details</h1>
+  <div class="hero-title" *ngIf="album">
+    <h5><input [(ngModel)]="album.title"></h5>
+  </div>
+  <div class="album-actions">
+    <button (click)="saveAlbum()">Save</button>
+    <button [routerLink]="['/albums', album?.id, 'photos']">Enter</button>
+    <button class="return-btn" (click)="returnToList()">Return to Albums</button>
+  </div>
+</div>

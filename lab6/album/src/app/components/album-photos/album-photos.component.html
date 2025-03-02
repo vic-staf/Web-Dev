@@ -1,0 +1,10 @@
+<div class="photos-container">
+  <h1>Photos</h1>
+  <div class="photo-gallery">
+    <div *ngFor="let photo of filteredPhotos" class="photo">
+      <img [src]="photo.thumbnailUrl" alt="{{ photo.title }}" />
+      <p>{{ photo.title }}</p>
+    </div>
+  </div>
+  <button class="return-button" (click)="returnToAlbum()">Return</button>
+</div>
