@@ -1,9 +1,12 @@
 // src/app/app.component.ts
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Category } from './models';
+import { HttpClient } from '@angular/common/http';
 import {ProductlistComponent} from './productlist/productlist.component';
 import {NgForOf, NgIf} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-root',
@@ -11,14 +14,19 @@ import {NgForOf, NgIf} from '@angular/common';
   imports: [
     ProductlistComponent,
     NgIf,
-    NgForOf
+    NgForOf,
+    HttpClientModule
   ],
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'Online Store';
 
-  categories: Category[] = [
+  products: any[] = []; // Список продуктов
+  categories: any[] = []; // Список категорий
+
+
+/*  categories: Category[] = [
     {
       id: 1,
       name: 'Games',
@@ -204,7 +212,40 @@ export class AppComponent {
         }
       ]
     }
-  ];
+  ];*/
+  private readonly API_URL = 'http://127.0.0.1:8000/api';
+
+   constructor(private http: HttpClient) {
+
+    this.loadProducts(); // Загружаем продукты
+    this.loadCategories(); // Загружаем категории
+
+   }
+
+    loadProducts(): void {
+    this.http.get<any[]>(`${this.API_URL}/products`).subscribe(
+      (data) => {
+        this.products = data; // Присваиваем полученные данные
+      },
+      (err) => {
+        console.error('Ошибка при загрузке продуктов:', err);
+      }
+    );
+  }
+
+  // Метод загрузки списка категорий
+  loadCategories(): void {
+    this.http.get<any[]>(`${this.API_URL}/categories`).subscribe(
+      (data) => {
+        this.categories = data; // Присваиваем полученные данные
+      },
+      (err) => {
+        console.error('Ошибка при загрузке категорий:', err);
+      }
+    );
+  }
+
+
 
   selectedCategory: Category | null = null;
 
