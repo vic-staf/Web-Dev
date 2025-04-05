@@ -5,7 +5,8 @@ import { Category } from './models';
 import { HttpClient } from '@angular/common/http';
 import {ProductlistComponent} from './productlist/productlist.component';
 import {NgForOf, NgIf} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+
+import {ApiService} from './services/api.service';
 
 
 @Component({
@@ -15,15 +16,16 @@ import {HttpClientModule} from '@angular/common/http';
     ProductlistComponent,
     NgIf,
     NgForOf,
-    HttpClientModule
+
   ],
+  standalone: true,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'Online Store';
 
-  products: any[] = []; // Список продуктов
-  categories: any[] = []; // Список категорий
+  products: any[] = [];
+  categories: any[] = [];
 
 
 /*  categories: Category[] = [
@@ -215,36 +217,66 @@ export class AppComponent {
   ];*/
   private readonly API_URL = 'http://127.0.0.1:8000/api';
 
-   constructor(private http: HttpClient) {
+   constructor(private http: HttpClient, private apiService: ApiService) {
 
-    this.loadProducts(); // Загружаем продукты
-    this.loadCategories(); // Загружаем категории
+    this.loadProducts();
+    this.loadCategories();
 
    }
 
     loadProducts(): void {
+     this.apiService.getProducts().subscribe(
+       (data) => {
+         this.products = data;
+       }
+     )
+      /*
     this.http.get<any[]>(`${this.API_URL}/products`).subscribe(
       (data) => {
-        this.products = data; // Присваиваем полученные данные
+        this.products = data;
       },
       (err) => {
-        console.error('Ошибка при загрузке продуктов:', err);
+        console.error( err);
       }
-    );
+    );*/
   }
 
-  // Метод загрузки списка категорий
+   newProduct = {
+    name: '',
+    price: 0,
+    category_id: 1,
+  };
+
+
+  addProduct() {
+    this.apiService.addProduct(this.newProduct).subscribe((data) => {
+      console.log('Продукт добавлен:', data);
+      this.loadProducts();
+    });
+  }
+
+
+
   loadCategories(): void {
+
+          this.apiService.getCategories().subscribe(
+       (data) => {
+         this.products = data;
+       }
+     )/*
     this.http.get<any[]>(`${this.API_URL}/categories`).subscribe(
       (data) => {
-        this.categories = data; // Присваиваем полученные данные
+        this.categories = data;
       },
       (err) => {
-        console.error('Ошибка при загрузке категорий:', err);
+        console.error( err);
       }
-    );
+    );*/
   }
 
+   ngOnInit() {
+    this.loadProducts();
+  }
 
 
   selectedCategory: Category | null = null;
